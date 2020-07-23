@@ -1,48 +1,76 @@
 import React, {useState} from 'react';
 import './App.css';
 
-function App() {
+const App = () => (
+  <TodoApp />
+)
+ 
+const TodoApp = () => {
 
-  const [input, setInput] = useState("")
   const [messageList, setMessageList] = useState(["Milk", "Sugar", "Butter"])
 
-  const inputHandler = (event) => {
+  const addTodo = (message) => {
+    setMessageList([...messageList, message])
+  }
+
+  const deleteTodo = (message) => {
+    let deleteMessageIndex = messageList.indexOf(message)
+    setMessageList([...messageList.slice(0, deleteMessageIndex), ...messageList.slice(deleteMessageIndex+1)])
+  }
+
+  return (
+    <>
+        <TodoHeader />
+        <TodoForm addTodo={addTodo}/>
+        <TodoList messageList={messageList} deleteTodo={deleteTodo}/>
+    </>
+  );
+}
+
+const TodoHeader = () => (
+  <h2>Todo List</h2>
+)
+ 
+const TodoForm = ({ addTodo }) => {
+
+  const [input, setInput] = useState("")
+
+  const changeHandler = (event) => {
     setInput(event.target.value)
   }
 
   const submitHandler = (event) => {
-    setMessageList([...messageList, input])
+    addTodo(input)
     setInput("")
   }
 
-  const generateDeleteMessage = message => ((event) => {
-    const splitIndex = messageList.indexOf(message)
-    setMessageList([...messageList.slice(0, splitIndex), ...messageList.slice(splitIndex + 1)])
-  })
-
   return (
-    <div>
-        <input type="text" value={input} onChange={inputHandler}/>
-        <button onClick={submitHandler}>Add</button>
-        <DisplayList {...{messageList, generateDeleteMessage}} />
-    </div>
-  );
+    <>
+      <input type="text" value={input} onChange={changeHandler}/>
+      <button onClick={submitHandler}>Add Todo</button>
+    </>
+  )
 }
 
-
-const DisplayList = ({ messageList, generateDeleteMessage }) => (
+const TodoList = ({ messageList, deleteTodo}) => (
   <ol>
     {messageList.map((message) => (
-      
-      <li>
-        <span>{message}  </span>
-        <button onClick={generateDeleteMessage(message)}>Delete</button>
-      </li>
-    
+      <Todo message={message} deleteTodo={deleteTodo} />
     ))}
   </ol>
-  
 )
+ 
+const Todo = ({ message, deleteTodo}) => {
+  
+  const handleSubmit = (event) => {
+    deleteTodo(message)
+  }
 
+  return (
+  <li>
+    {message + "  "}
+    <button onClick={handleSubmit}>Delete</button>
+  </li>
+)}
 
 export default App;
