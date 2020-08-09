@@ -19,16 +19,19 @@ const TodoApp = () => {
   }
 
   return (
-    <>
+    <div id="app">
         <TodoHeader />
-        <TodoForm addTodo={addTodo}/>
+        <TodoForm addTodo={addTodo}/> <br/> {/* Why */}
         <TodoList messageList={messageList} deleteTodo={deleteTodo}/>
-    </>
+    </div>
   );
 }
 
 const TodoHeader = () => (
-  <h2>Todo List</h2>
+  <div id="header">
+    <h2>Todo List</h2>
+  </div>
+
 )
  
 const TodoForm = ({ addTodo }) => {
@@ -45,17 +48,17 @@ const TodoForm = ({ addTodo }) => {
   }
 
   return (
-    <>
-      <input type="text" value={input} onChange={changeHandler}/>
-      <button onClick={submitHandler}>Add Todo</button>
-    </>
+    <div id='form'>
+      <input id='form__input' type="text" value={input} onChange={changeHandler}/>
+      <button id='form__submit' onClick={submitHandler}>Add Todo</button>
+    </div>
   )
 }
 
 const TodoList = ({ messageList, deleteTodo}) => (
   <ol>
-    {messageList.map((message) => (
-      <Todo message={message} deleteTodo={deleteTodo} />
+    {messageList.map((message, index) => (
+      <Todo message={message} deleteTodo={deleteTodo} key={index}/>
     ))}
   </ol>
 )

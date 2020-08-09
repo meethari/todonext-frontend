@@ -1,0 +1,29 @@
+#app {
+    margin: auto;
+    width: 500px;
+}
+  
+#header {
+    margin: auto;
+    text-align: center;
+}
+
+#form {
+
+}
+
+#form__input {
+    float: left;
+    font-size: 18px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+#form__submit {
+    float: right;
+    padding: 10px;
+    background-color: darkorange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
