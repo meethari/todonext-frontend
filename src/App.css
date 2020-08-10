@@ -9,14 +9,15 @@
 }
 
 #form {
-
+    margin-bottom: 40px;
 }
 
 #form__input {
     float: left;
-    font-size: 18px;
-    padding: 4px 8px;
-    box-sizing: border-box;
+    font-size: 16px;
+    padding: 6px 8px;
+    box-sizing: border-box; /* Just to ensure the padding is included in the size of the box*/
+    width: 80%;
 }
 
 #form__submit {
@@ -26,4 +27,47 @@
     color: white;
     border: none;
     border-radius: 5px;
+}
+
+#form__submit:hover {
+ 
+    background-color: #d17300;
+}
+
+#todolist {
+    width: 100%;
+    list-style: none;
+    padding-left: 0px;
+}
+
+#todo {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #D8D8D8;
+    border-radius: 5px;
+    margin: 5px 0px;
+    padding: 10px 20px;
+    background-color: #E8E8E8;
+}
+
+#todo__label {
+
+}
+
+#todo__delete {
+    padding: 10px;
+    display:inline-block;
+    border: none;
+    background-color: red;
+    color: white;
+}
+
+#todo__delete:hover {
+    background-color: #b80000;
+}
+
+#footer {
+    margin: 10px 0px;
+    text-align: center;
+    font-size: small;
 }

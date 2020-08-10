@@ -23,6 +23,7 @@ const TodoApp = () => {
         <TodoHeader />
         <TodoForm addTodo={addTodo}/> <br/> {/* Why */}
         <TodoList messageList={messageList} deleteTodo={deleteTodo}/>
+        <Footer/>
     </div>
   );
 }
@@ -56,7 +57,7 @@ const TodoForm = ({ addTodo }) => {
 }
 
 const TodoList = ({ messageList, deleteTodo}) => (
-  <ol>
+  <ol id='todolist'>
     {messageList.map((message, index) => (
       <Todo message={message} deleteTodo={deleteTodo} key={index}/>
     ))}
@@ -70,10 +71,17 @@ const Todo = ({ message, deleteTodo}) => {
   }
 
   return (
-  <li>
-    {message + "  "}
-    <button onClick={handleSubmit}>Delete</button>
+  <li id='todo'>
+    <span id='todo__label'>{message + "  "}</span>
+    <button id='todo__delete' onClick={handleSubmit}>Delete</button>
   </li>
 )}
+
+const Footer = () => (
+  <div id="footer">
+    <a href="http://github.com/meethari" target="_blank" rel="noopener noreferrer">Github: meethari</a>
+  </div>
+  
+)
 
 export default App;
