@@ -1,6 +1,7 @@
 #app {
     margin: auto;
     width: 500px;
+    padding: 0px 15px;
 }
   
 #header {
@@ -46,8 +47,9 @@
     border-color: #D8D8D8;
     border-radius: 5px;
     margin: 5px 0px;
-    padding: 10px 20px;
     background-color: #E8E8E8;
+    position: relative;
+    padding: 20px 20px;
 }
 
 #todo__label {
@@ -60,6 +62,10 @@
     border: none;
     background-color: red;
     color: white;
+    position: absolute;
+    right: 20px;
+    top: 12px;
+
 }
 
 #todo__delete:hover {
