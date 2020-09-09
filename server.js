@@ -24,4 +24,15 @@ app.get('/api/tasks', async (req, res) => {
     res.send(taskList)
 })
 
+app.get('/api/tasks/:id', async (req, res) => {
+
+    try {
+        const task = await Task.findById(req.params.id)
+        res.send(task)
+    } catch (err) {
+        res.status(404).send(err)
+    }
+        
+})
+
 app.listen(process.env.PORT, () => {console.log(`Listening at port ${process.env.PORT}`)})
