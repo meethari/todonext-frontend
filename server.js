@@ -6,8 +6,14 @@ const mongoose = require('mongoose')
 const setUpMongoose = () => {
     mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     var taskSchema = mongoose.Schema({
-        text: String,
-        done: Boolean
+        text: {
+            type: String,
+            required: true
+        },
+        done: {
+            type: Boolean,
+            default: false
+        } 
     })
     var Task = mongoose.model('task', taskSchema)
     return Task
@@ -18,6 +24,20 @@ const app = express()
 var Task = setUpMongoose()
 
 app.use(express.json())
+
+
+app.post('/api/tasks', async (req, res) => {
+    // endpoint to create
+
+    try {
+        var newTask = new Task(req.body)
+        await newTask.save()
+        res.status(201).send(newTask)
+    } catch (err) {
+        res.status(404).send(err)
+    }
+
+})
 
 app.get('/api/tasks', async (req, res) => {
     const taskList = await Task.find()
