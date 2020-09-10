@@ -40,19 +40,37 @@ app.post('/api/tasks', async (req, res) => {
 })
 
 app.get('/api/tasks', async (req, res) => {
+    // endpoint to read
+
     const taskList = await Task.find()
     res.send(taskList)
 })
 
 app.get('/api/tasks/:id', async (req, res) => {
+    // endpoint to read pt 2
 
     try {
         const task = await Task.findById(req.params.id)
-        res.send(task)
+        if (task !== null)
+            res.send(task)
+        else
+            res.status(404).send("No matching document found")
     } catch (err) {
         res.status(404).send(err)
     }
         
+})
+
+app.delete('/api/tasks/:id', async (req, res) => {
+    try {
+        const returnVal = await Task.deleteOne({_id: req.params.id})
+        if (returnVal && returnVal.deletedCount > 0)
+            res.status(200).send('OK')
+        else 
+            res.status(404).send('No matching document found')
+    } catch (err) {
+        res.status(404).send(err)
+    }
 })
 
 app.listen(process.env.PORT, () => {console.log(`Listening at port ${process.env.PORT}`)})
