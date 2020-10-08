@@ -10,6 +10,9 @@
     "mongoose": "^5.9.20"
   },
   "scripts": {
+    "client": "cd client && npm run start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/meethari/todo_react/issues"
   },
-  "homepage": "https://github.com/meethari/todo_react#readme"
+  "homepage": "https://github.com/meethari/todo_react#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
 }

@@ -71,7 +71,6 @@ app.patch('/api/tasks/:id', async (req, res) => {
     }
 
     const sentObject = req.body
-    console.log(sentObject)
 
     if (!('done' in sentObject && 'text' in sentObject)) {
         res.status(404).send("Both done and text fields should be present")
