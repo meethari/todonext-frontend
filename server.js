@@ -27,7 +27,7 @@ app.use(express.json())
 
 
 app.post('/api/tasks', async (req, res) => {
-    // endpoint to create
+    // handler for create
 
     try {
         var newTask = new Task(req.body)
@@ -40,14 +40,14 @@ app.post('/api/tasks', async (req, res) => {
 })
 
 app.get('/api/tasks', async (req, res) => {
-    // endpoint to read
+    // handler for reading all tasks
 
     const taskList = await Task.find()
     res.send(taskList)
 })
 
 app.get('/api/tasks/:id', async (req, res) => {
-    // endpoint to read pt 2
+    // handler for reading specific task
 
     try {
         const task = await Task.findById(req.params.id)
@@ -61,7 +61,40 @@ app.get('/api/tasks/:id', async (req, res) => {
         
 })
 
+app.patch('/api/tasks/:id', async (req, res) => {
+    // handler for update
+    const task = await Task.findById(req.params.id)
+
+    if (task == null) {
+        res.status(404).send("No matching document found")
+        return
+    }
+
+    const sentObject = req.body
+    console.log(sentObject)
+
+    if (!('done' in sentObject && 'text' in sentObject)) {
+        res.status(404).send("Both done and text fields should be present")
+        return
+    }
+
+    task.done = sentObject.done
+    task.text = sentObject.text
+
+    try {
+        task.save()
+    } catch {
+        res.status(404).send("Both done and text fields should be present")
+    } finally {
+        res.send(task)
+    }
+
+
+})
+
 app.delete('/api/tasks/:id', async (req, res) => {
+    // handler for delete
+
     try {
         const returnVal = await Task.deleteOne({_id: req.params.id})
         if (returnVal && returnVal.deletedCount > 0)
