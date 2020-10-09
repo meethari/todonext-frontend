@@ -7,22 +7,42 @@ const App = () => (
  
 const TodoApp = () => {
 
-  const [messageList, setMessageList] = useState(["Milk", "Sugar", "Butter"])
+  const [taskList, setTaskList] = useState(
+    [
+      {
+        "_id": "2354145",
+        "done": true,
+        "text": "Milk"
+      }
+    ]
+  )
 
   const addTodo = (message) => {
-    setMessageList([...messageList, message])
+    setTaskList([...taskList, {_id: "lil_yachty", done: false, text: message}])
+
+    // TODO: make API call
+
+    // TODO: set ID
   }
 
-  const deleteTodo = (message) => {
-    let deleteMessageIndex = messageList.indexOf(message)
-    setMessageList([...messageList.slice(0, deleteMessageIndex), ...messageList.slice(deleteMessageIndex+1)])
+  const deleteTodo = (id) => {
+    var deleteTaskIndex = -1
+    for (var i = 0; i < taskList.length; i++) {
+      console.log(taskList[i]._id)
+      if (taskList[i]._id === id) {
+        deleteTaskIndex = i;
+        break;
+      }
+    }
+    
+    setTaskList([...taskList.slice(0, deleteTaskIndex), ...taskList.slice(deleteTaskIndex+1)])
   }
 
   return (
     <div id="app">
         <TodoHeader />
         <TodoForm addTodo={addTodo}/> <br/> {/* Why */}
-        <TodoList messageList={messageList} deleteTodo={deleteTodo}/>
+        <TodoList taskList={taskList} deleteTodo={deleteTodo}/>
         <Footer/>
     </div>
   );
@@ -56,23 +76,24 @@ const TodoForm = ({ addTodo }) => {
   )
 }
 
-const TodoList = ({ messageList, deleteTodo}) => (
+const TodoList = ({ taskList, deleteTodo}) => (
   <ol id='todolist'>
-    {messageList.map((message, index) => (
-      <Todo message={message} deleteTodo={deleteTodo} key={index}/>
+    {taskList.map((task) => (
+      <Todo task={task} deleteTodo={deleteTodo}/>
     ))}
   </ol>
 )
  
-const Todo = ({ message, deleteTodo}) => {
+const Todo = ({ task, deleteTodo}) => {
   
   const handleSubmit = (event) => {
-    deleteTodo(message)
+    deleteTodo(task._id)
   }
 
   return (
-  <li id='todo'>
-    <span id='todo__label'>{message + "  "}</span>
+  <li key={task._id} id='todo'>
+    <input id='todo__checkbox' type="checkbox" checked={task.done}></input>
+    <span id='todo__label'>{task.text}</span>
     <button id='todo__delete' onClick={handleSubmit}>Delete</button>
   </li>
 )}
