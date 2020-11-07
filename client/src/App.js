@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios'
 import './App.css';
+
 
 const App = () => (
   <TodoApp />
@@ -7,15 +9,22 @@ const App = () => (
  
 const TodoApp = () => {
 
-  const [taskList, setTaskList] = useState(
-    [
-      {
-        "_id": "2354145",
-        "done": true,
-        "text": "Milk"
+  const [taskList, setTaskList] = useState([])
+
+  useEffect(() => {
+    const getResults = async () => {
+      try {
+        const response = await axios.get('api/tasks')
+        // response.data has the list of json
+        setTaskList(response.data)
+      } catch(e) {
+        console.log(e)
       }
-    ]
-  )
+    }
+    
+    getResults()
+    
+  }, [])
 
   const addTodo = (message) => {
     setTaskList([...taskList, {_id: "lil_yachty", done: false, text: message}])
