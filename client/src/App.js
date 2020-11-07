@@ -118,7 +118,7 @@ const Todo = ({ task, deleteTodo, setTodoDone}) => {
   return (
   <li id='todo'>
     <input id='todo__checkbox' type="checkbox" checked={task.done} onChange={handleCheckboxChange}></input>
-    <span id='todo__label'>{task.text}</span>
+    <span id='todo__label' style={{textDecoration: task.done ? "line-through" : "none"}}>{task.text}</span>
     <button id='todo__delete' onClick={handleSubmit}>Delete</button>
   </li>
 )}
