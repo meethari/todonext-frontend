@@ -34,24 +34,36 @@ const TodoApp = () => {
     // TODO: set ID
   }
 
-  const deleteTodo = (id) => {
-    var deleteTaskIndex = -1
+  const findTaskIndex = (id) => {
+    var taskIndex = -1
     for (var i = 0; i < taskList.length; i++) {
-      console.log(taskList[i]._id)
       if (taskList[i]._id === id) {
-        deleteTaskIndex = i;
+        taskIndex = i;
         break;
       }
     }
-    
+    return taskIndex
+  }
+
+  const deleteTodo = (id) => {
+    const deleteTaskIndex = findTaskIndex(id)
     setTaskList([...taskList.slice(0, deleteTaskIndex), ...taskList.slice(deleteTaskIndex+1)])
+  }
+
+  const setTodoDone = (id, state) => {
+    const editTaskIndex = findTaskIndex(id)
+    const newTask = {
+      ...taskList[editTaskIndex]
+    }
+    newTask.done = state
+    setTaskList([...taskList.slice(0, editTaskIndex), newTask, ...taskList.slice(editTaskIndex+1)])
   }
 
   return (
     <div id="app">
         <TodoHeader />
         <TodoForm addTodo={addTodo}/> <br/> {/* Why */}
-        <TodoList taskList={taskList} deleteTodo={deleteTodo}/>
+        <TodoList taskList={taskList} deleteTodo={deleteTodo} setTodoDone={setTodoDone}/>
         <Footer/>
     </div>
   );
@@ -85,23 +97,27 @@ const TodoForm = ({ addTodo }) => {
   )
 }
 
-const TodoList = ({ taskList, deleteTodo}) => (
+const TodoList = ({ taskList, deleteTodo, setTodoDone}) => (
   <ol id='todolist'>
     {taskList.map((task) => (
-      <Todo task={task} deleteTodo={deleteTodo}/>
+      <Todo key={task._id} task={task} deleteTodo={deleteTodo} setTodoDone={setTodoDone}/>
     ))}
   </ol>
 )
  
-const Todo = ({ task, deleteTodo}) => {
+const Todo = ({ task, deleteTodo, setTodoDone}) => {
+
+  const handleCheckboxChange = (event) => {
+    setTodoDone(task._id, event.target.checked)
+  }
   
   const handleSubmit = (event) => {
     deleteTodo(task._id)
   }
 
   return (
-  <li key={task._id} id='todo'>
-    <input id='todo__checkbox' type="checkbox" checked={task.done}></input>
+  <li id='todo'>
+    <input id='todo__checkbox' type="checkbox" checked={task.done} onChange={handleCheckboxChange}></input>
     <span id='todo__label'>{task.text}</span>
     <button id='todo__delete' onClick={handleSubmit}>Delete</button>
   </li>
