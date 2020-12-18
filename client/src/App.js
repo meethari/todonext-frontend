@@ -26,12 +26,23 @@ const TodoApp = () => {
     
   }, [])
 
-  const addTodo = (message) => {
-    setTaskList([...taskList, {_id: "lil_yachty", done: false, text: message}])
+  const addTodo = async (message) => {
 
-    // TODO: make API call
 
-    // TODO: set ID
+    // make API call
+    const newTask = {text: message, done: false}
+
+    const addTaskToMongo = async () => {
+      const response = await axios.post('/api/tasks', newTask)
+      return response.data
+    }
+
+    const taskWithMongoID = await addTaskToMongo()
+
+    // Add returned task to task list
+
+    setTaskList([...taskList, taskWithMongoID])
+
   }
 
   const findTaskIndex = (id) => {
