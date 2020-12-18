@@ -62,6 +62,20 @@ const TodoApp = () => {
   }
 
   const deleteTodo = (id) => {
+
+    // This handler deletes the task in Mongo and removes it from the UI in parallel.
+
+    const deleteTaskFromMongo = async (id) => {
+      const response = await axios.delete(`/api/tasks/${id}`)
+      if (response.status == 200) {
+        console.log('deleteTodo: deleted task from mongo successfully')
+      } else {
+        console.log('deleteTodo: deleting task from mongo failed. Please refresh the app.')
+      }
+    }
+
+    deleteTaskFromMongo(id)
+
     const deleteTaskIndex = findTaskIndex(id)
     setTaskListWithLogging([...taskList.slice(0, deleteTaskIndex), ...taskList.slice(deleteTaskIndex+1)])
   }
