@@ -11,12 +11,17 @@ const TodoApp = () => {
 
   const [taskList, setTaskList] = useState([])
 
+  const setTaskListWithLogging = (taskList) => {
+    console.log(taskList)
+    setTaskList(taskList)
+  }
+
   useEffect(() => {
     const getResults = async () => {
       try {
         const response = await axios.get('api/tasks')
         // response.data has the list of json
-        setTaskList(response.data)
+        setTaskListWithLogging(response.data)
       } catch(e) {
         console.log(e)
       }
@@ -41,7 +46,7 @@ const TodoApp = () => {
 
     // Add returned task to task list
 
-    setTaskList([...taskList, taskWithMongoID])
+    setTaskListWithLogging([...taskList, taskWithMongoID])
 
   }
 
@@ -58,7 +63,7 @@ const TodoApp = () => {
 
   const deleteTodo = (id) => {
     const deleteTaskIndex = findTaskIndex(id)
-    setTaskList([...taskList.slice(0, deleteTaskIndex), ...taskList.slice(deleteTaskIndex+1)])
+    setTaskListWithLogging([...taskList.slice(0, deleteTaskIndex), ...taskList.slice(deleteTaskIndex+1)])
   }
 
   const setTodoDone = (id, state) => {
@@ -67,7 +72,7 @@ const TodoApp = () => {
       ...taskList[editTaskIndex]
     }
     newTask.done = state
-    setTaskList([...taskList.slice(0, editTaskIndex), newTask, ...taskList.slice(editTaskIndex+1)])
+    setTaskListWithLogging([...taskList.slice(0, editTaskIndex), newTask, ...taskList.slice(editTaskIndex+1)])
   }
 
   return (
