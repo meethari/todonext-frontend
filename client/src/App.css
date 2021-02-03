@@ -52,8 +52,6 @@
     padding: 20px 20px;
 }
 
-#todo__label {}
-
 #todo__checkbox {
     margin-right: 20px;
 }
@@ -85,20 +83,20 @@ body {
     font-size: 16px;
 }
 
-.login__title {
+.login__title, .register__title {
     margin-top: 100px;
     font-size: 3em;
     text-align: center;
 }
 
-.login__container {
+.login__container, .register__container {
     margin-top: 50px;
     width: 350px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.login__form {
+.login__form, .register__form {
     background-color: #E8E8E8;
     border: 2px solid #D8D8D8;
     padding: 10px 10px;
