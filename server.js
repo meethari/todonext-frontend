@@ -4,6 +4,7 @@ require('dotenv').config()
 const path = require('path');
 const mongoose = require('mongoose')
 const passport = require('passport')
+const connect_ensure_login = require('connect-ensure-login')
 const Strategy = require('passport-local').Strategy;
 
 // Mongoose
@@ -78,11 +79,16 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/')
 })
 
+app.get('/logout', (req, res) => {
+    req.logout()
+    req.redirect('/')
+})
+
 app.post('/register', async function (req, res) {
 
     // If both fields not provided, reject
     if (!(req.body.username && req.body.password)) {
-        res.status(404).send({'message': 'Format: {username, password}'})
+        res.status(404).send('Format: {username, password}')
         return
     }
 
@@ -90,16 +96,23 @@ app.post('/register', async function (req, res) {
     userExists = await User.findOne({'username': req.body.username})
 
     if (userExists) {
-        res.status(409).send({'message': 'Account already exists. Try logging in.'})
+        res.status(409).send('Account already exists. Try logging in.')
         return
     }
 
     // Create user
     var newUser = new User({username: req.body.username, password: req.body.password})
     await newUser.save()
-    res.status(201).send()
 
-    // TODO: log in user instead, and redirect them
+    // log in user and redirect them
+    req.login(newUser, (err) => {
+        if (err) {
+            return res.status(500).send('Error in logging in user')
+        }
+        return res.redirect('/')
+
+    })
+
     // TODO 2: when you do this, provide the UI a message
 
 } )
@@ -119,7 +132,7 @@ app.post('/api/tasks', async (req, res) => {
 
 })
 
-app.get('/api/tasks', async (req, res) => {
+app.get('/api/tasks', connect_ensure_login.ensureLoggedIn() , async (req, res) => {
     // handler for reading all tasks
 
     const taskList = await Task.find()
