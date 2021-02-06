@@ -119,7 +119,7 @@ app.post('/register', async function (req, res) {
 
 // Tasks handlers
 
-app.post('/api/tasks', async (req, res) => {
+app.post('/api/tasks', connect_ensure_login.ensureLoggedIn(), async (req, res) => {
     // handler for create
 
     try {
@@ -139,7 +139,7 @@ app.get('/api/tasks', connect_ensure_login.ensureLoggedIn() , async (req, res) =
     res.send(taskList)
 })
 
-app.get('/api/tasks/:id', async (req, res) => {
+app.get('/api/tasks/:id', connect_ensure_login.ensureLoggedIn(), async (req, res) => {
     // handler for reading specific task
 
     try {
@@ -154,7 +154,7 @@ app.get('/api/tasks/:id', async (req, res) => {
         
 })
 
-app.patch('/api/tasks/:id', async (req, res) => {
+app.patch('/api/tasks/:id', connect_ensure_login.ensureLoggedIn(), async (req, res) => {
     // handler for update
     const task = await Task.findById(req.params.id)
 
@@ -184,7 +184,7 @@ app.patch('/api/tasks/:id', async (req, res) => {
 
 })
 
-app.delete('/api/tasks/:id', async (req, res) => {
+app.delete('/api/tasks/:id', connect_ensure_login.ensureLoggedIn(), async (req, res) => {
     // handler for delete
 
     try {
