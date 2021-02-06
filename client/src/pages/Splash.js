@@ -22,7 +22,7 @@ const SplashNavbar = (props) => {
     return (
         <div>
             <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">TodoMachine</NavbarBrand>
+                <NavbarBrand href="/">ToDoNext</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>

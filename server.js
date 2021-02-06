@@ -3,6 +3,10 @@ const express = require('express')
 require('dotenv').config()
 const path = require('path');
 const mongoose = require('mongoose')
+const passport = require('passport')
+const Strategy = require('passport-local').Strategy;
+
+// Mongoose
 
 const setUpMongoose = () => {
     mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -17,15 +21,90 @@ const setUpMongoose = () => {
         } 
     })
     var Task = mongoose.model('task', taskSchema)
-    return Task
+
+    var userSchema =  mongoose.Schema({
+        username: {
+            type: String,
+            required: true
+        },
+        password: {
+            type: String,
+            required: true
+        }
+    })
+    var User = mongoose.model('user', userSchema)
+
+    return {Task, User}
 }
 
+var {Task, User} = setUpMongoose()
+
+// Passport
+
+passport.use(new Strategy(
+    function(username, password, done) {
+        User.findOne({username: username}, function(err, user){
+            if (err) {return(done(err))}
+            if (!user) {return(done(null, false))}
+            if (user.password != password) {return done(null, false)}
+            return done(null, user)
+        })
+    }
+))
+
+// Serialize and deserialize
+passport.serializeUser(function(user, done) {
+    done(null, user._id)
+})
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        if (err) {return done(err)}
+        done(null, user)
+    })
+})
+
+// Express App
+
 const app = express()
-
-var Task = setUpMongoose()
-
 app.use(express.json())
+app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/')
+})
+
+app.post('/register', async function (req, res) {
+
+    // If both fields not provided, reject
+    if (!(req.body.username && req.body.password)) {
+        res.status(404).send({'message': 'Format: {username, password}'})
+        return
+    }
+
+    // Check if user already exists
+    userExists = await User.findOne({'username': req.body.username})
+
+    if (userExists) {
+        res.status(409).send({'message': 'Account already exists. Try logging in.'})
+        return
+    }
+
+    // Create user
+    var newUser = new User({username: req.body.username, password: req.body.password})
+    await newUser.save()
+    res.status(201).send()
+
+    // TODO: log in user instead, and redirect them
+    // TODO 2: when you do this, provide the UI a message
+
+} )
+
+// Tasks handlers
 
 app.post('/api/tasks', async (req, res) => {
     // handler for create
