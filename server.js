@@ -79,9 +79,9 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/')
 })
 
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     req.logout()
-    req.redirect('/')
+    res.redirect('/')
 })
 
 app.post('/register', async function (req, res) {
@@ -109,7 +109,7 @@ app.post('/register', async function (req, res) {
         if (err) {
             return res.status(500).send('Error in logging in user')
         }
-        return res.redirect('/')
+        return res.status(200).send('Registered and logged in!')
 
     })
 

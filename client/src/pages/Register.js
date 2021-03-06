@@ -2,8 +2,11 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 import { Link } from 'react-router-dom'
+import { useAuth } from 'context/Auth.js'
 
 const Register = () => {
+
+    const {authTokens, setAuthTokens} = useAuth()
 
     const [inputEmail, setInputEmail] = useState("")
     const [inputPassword, setInputPassword] = useState("")
@@ -23,7 +26,17 @@ const Register = () => {
         if (!formValidate())
             return
         
-        const response = await axios.post('/register', {username: inputEmail, password: inputPassword})
+        try {
+            const response = await axios.post('/register', {username: inputEmail, password: inputPassword})
+            if (response.status == 200) {
+            setAuthTokens(true)
+            } 
+        } catch (e) {
+            // Todo: replace this with a react alert
+            alert('Error')
+            console.log(e)
+        };
+        
     }
 
     return (
