@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import SiteNavbar from 'components/SiteNavbar'
 import axios from 'axios'
 
 
 const App = () => (
-  <TodoApp />
+  <>
+    <SiteNavbar/>
+    <TodoApp />
+  </>
 )
  
 const TodoApp = () => {
