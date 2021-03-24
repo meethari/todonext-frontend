@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 import { Link } from 'react-router-dom'
+import { useAuth } from 'context/Auth.js'
 
 const Login = () => (
     <> 

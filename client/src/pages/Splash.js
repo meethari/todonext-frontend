@@ -4,6 +4,7 @@ import SiteNavbar from 'components/SiteNavbar'
 const Splash = () => (
     <>
         <SiteNavbar/>
+        <h1>Todo: make a splash page</h1>
     </>
 )
 
