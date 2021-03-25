@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from 'context/Auth.js'
 
 const Register = () => {
@@ -11,6 +11,7 @@ const Register = () => {
     const [inputEmail, setInputEmail] = useState("")
     const [inputPassword, setInputPassword] = useState("")
     const [inputPasswordRepeat, setInputPasswordRepeat] = useState("")
+    const history = useHistory()
 
     const formValidate = () => {
         if (inputPassword.localeCompare(inputPasswordRepeat) != 0) {
@@ -30,6 +31,7 @@ const Register = () => {
             const response = await axios.post('/register', {username: inputEmail, password: inputPassword})
             if (response.status == 200) {
             setAuthTokens(true)
+            history.push('/')
             } 
         } catch (e) {
             // Todo: replace this with a react alert
