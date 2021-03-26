@@ -1,29 +1,40 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 
-import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
+import { Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from 'context/Auth.js'
+  
 
 const Login = () => {
 
     const [inputEmail, setInputEmail] = useState("")
     const [inputPassword, setInputPassword] = useState("")
+    const [alertOpen, setAlertOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
     const {authTokens, setAuthTokens} = useAuth()
     const history = useHistory()
 
     const formValidate = () => {
-        if (inputPassword === "") {
+
+        if (inputEmail === "") {
+            setAlertMessage('Please enter an email ID.')
+            setAlertOpen(true)
             return false
         }
 
-        // TODO: add other validation criteria. Regex email for instance.
+        if (inputPassword === "") {
+            setAlertMessage('Please enter a password.')
+            setAlertOpen(true)
+            return false
+        }
+
+        // TODO: add Regex email criteria
         return true
     }
 
     const submitForm = async () => {
         if (!formValidate()) {
-            alert('Details in this form may be filled incorrectly.')
             return
         }
     
@@ -34,15 +45,17 @@ const Login = () => {
             history.push("/")
             } 
         } catch (e) {
-            // Todo: replace this with a react alert
-            alert('Error')
-            console.log(e)
+            setAlertMessage('Invalid email ID and/or password. Please re enter your credentials.')
+            setAlertOpen(true)
         };
         
     }
 
     return (
     <> 
+        <div className="login__alertcontainer">
+            <Alert color='danger' isOpen={alertOpen} toggle={() => {setAlertOpen(false)}}>{alertMessage}</Alert>
+        </div>
         <div className="login__title">
             Log In
         </div>
