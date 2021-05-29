@@ -1,18 +1,74 @@
 import React, {useState, useEffect} from 'react';
 import SiteNavbar from 'components/SiteNavbar'
+import {Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
 import axios from 'axios'
 
 
-const App = () => (
-  <>
-    <SiteNavbar/>
-    <TodoApp />
-  </>
-)
- 
-const TodoApp = () => {
+const App = () => {
 
-  const [taskList, setTaskList] = useState([])
+    const [taskList, setTaskList] = useState([])
+    const [modalOpen, setModalState] = useState(false)
+
+    return (
+    <>
+      <ModalAddList modalOpen={modalOpen} setModalState={setModalState} />
+      <SiteNavbar/>
+      <div>
+        <div style={{width: "20%", float: 'left'}}>
+          <ListSelector setModalState={setModalState}/>
+        </div>
+        <div style={{width: "80%", float: 'right'}}>
+          <TodoListDisplay taskList={taskList} setTaskList={setTaskList} />
+        </div>
+      </div>
+      
+    </>
+  )
+}
+
+const ModalAddList = ({modalOpen, setModalState}) =>  (
+  <Modal isOpen={modalOpen} toggle={() => {setModalState(!modalOpen)}}>
+    <ModalHeader>Create new list:</ModalHeader>
+    <ModalBody>
+      <FormGroup>
+        <Label form="inputListName">Name of new list:</Label>
+        <Input name="inputListName"></Input>
+      </FormGroup>
+    </ModalBody>
+    <ModalFooter>
+    <Button onClick={() => {setModalState(!modalOpen)}}>
+        Close
+    </Button>
+    <Button color="primary">Save changes</Button>
+    </ModalFooter>
+  </Modal>
+)
+
+const ListSelector = ({setModalState}) => {
+  return (
+    <Nav vertical style={{backgroundColor: '#f1f1f1', minHeight: '100vh'}}>
+      <NavItem>
+        <NavLink href="#">Link</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#">Link</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#">Another Link</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink disabled href="#">Disabled Link</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink>
+          <Button color="primary" onClick={() => {setModalState(true)}}>New List</Button>
+        </NavLink>
+      </NavItem>
+    </Nav>
+  )
+}
+ 
+const TodoListDisplay = ({taskList, setTaskList}) => {
 
   const setTaskListWithLogging = (taskList) => {
     console.log(taskList)
@@ -115,7 +171,6 @@ const TodoApp = () => {
         <TodoHeader />
         <TodoForm addTodo={addTodo}/> <br/> {/* Why */}
         <TodoList taskList={taskList} deleteTodo={deleteTodo} setTodoDone={setTodoDone}/>
-        <Footer/>
     </div>
   );
 }
@@ -173,12 +228,5 @@ const Todo = ({ task, deleteTodo, setTodoDone}) => {
     <button id='todo__delete' onClick={handleSubmit}>Delete</button>
   </li>
 )}
-
-const Footer = () => (
-  <div id="footer">
-    <a href="http://github.com/meethari" target="_blank" rel="noopener noreferrer">Github: meethari</a>
-  </div>
-  
-)
 
 export default App;
