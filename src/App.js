@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import Splash from 'pages/Splash'
-import TodoApp from 'pages/TodoApp'
+import TaskManagerPage from 'pages/TaskManagerPage/TaskManagerPage'
 import Login from 'pages/Login'
 import Register from 'pages/Register'
 import {AuthContext, useAuth} from 'context/Auth'
@@ -40,11 +40,8 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            {authTokens ? <TodoApp/> : <Splash/>}
+            {authTokens ? <TaskManagerPage/> : <Splash/>}
           </Route> 
-          <Route path="/app">
-            <TodoApp/>
-          </Route>
           <Route path="/login">
             <Login/>
           </Route>
