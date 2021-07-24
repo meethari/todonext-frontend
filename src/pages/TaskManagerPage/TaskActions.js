@@ -1,13 +1,20 @@
+import axios from "axios"
+
 function getTaskActions(setTaskList, taskList) {
 
-	const addTaskToTaskList = (task) => {
-		const response = await axios.post(`/api/lists/${currentListId}/tasks/`, task)
+	const initTaskList = async (listId) => {
+		const response = await axios.get(`/api/lists/${listId}`)
+		setTaskList(response.data)
+	}
+
+	const addTaskToTaskList = async (task) => {
+		const response = await axios.post(`/api/lists/${taskList._id}/tasks/`, task)
 		// response.data is the task
 		const newTaskList = {...taskList, tasks: [...taskList.tasks, response.data]}
 		setTaskList(newTaskList)
 	}
 
-	const deleteTaskFromTaskList = (id) => {
+	const deleteTaskFromTaskList = async (id) => {
 
 		const response = await axios.delete(`/api/lists/${taskList._id}/tasks/${id}`)
 		if (response.status === 200) {
@@ -21,7 +28,7 @@ function getTaskActions(setTaskList, taskList) {
 		
 	}
 
-	const setTaskDone = (id) => {
+	const setTaskDone = async (id, isDone) => {
 
 		// This handler updates the done property of the task in mongo, and updates it in the UI in parallel
 
@@ -45,7 +52,7 @@ function getTaskActions(setTaskList, taskList) {
 	}
 
 
-	return [addTaskToTaskList, deleteTaskFromTaskList, setTaskDone]
+	return [initTaskList, addTaskToTaskList, deleteTaskFromTaskList, setTaskDone]
 
 }
 

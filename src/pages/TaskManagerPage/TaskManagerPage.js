@@ -1,36 +1,44 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import SiteNavbar from 'components/SiteNavbar'
-import ListSelector  from 'pages/TaskManagerPage/ListSelector'
-import TasksDisplay  from 'pages/TaskManagerPage/TasksDisplay';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import ListSelector from './ListSelector'
+import TasksDisplay from './TasksDisplay';
+import getTaskActions from './TaskActions';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
+import testList from './testList.json'
 
 
 
 const TaskManagerPage = () => {
 
-    const [lists, setLists] = useState([])
-    const [tasks, setTasks] = useState([])
-    const [modalOpen, setModalState] = useState(false)
+  const [lists, setLists] = useState([])
+  const [taskList, setTaskList] = useState(null)
+  const [modalOpen, setModalState] = useState(false)
 
-    return (
+  const [initTaskList, addTask, deleteTask, setTaskDone] = getTaskActions(setTaskList, taskList)
+
+  useEffect(() => {
+    setTaskList(testList)
+  }, [])
+
+  return (
     <>
       <ModalAddList modalOpen={modalOpen} setModalState={setModalState} />
-      <SiteNavbar/>
+      <SiteNavbar />
       <div>
-        <div style={{width: "20%", float: 'left'}}>
-          <ListSelector setModalState={setModalState}/>
+        <div style={{ width: "20%", float: 'left' }}>
+          <ListSelector setModalState={setModalState} />
         </div>
-        <div style={{width: "80%", float: 'right'}}>
-          <TasksDisplay taskList={tasks} setTaskList={setTasks} />
+        <div style={{ width: "80%", float: 'right' }}>
+          <TasksDisplay taskList={taskList} addTask={() => {}} deleteTask={() => {}} setTaskDone={() => {}}/>
         </div>
       </div>
-      
+
     </>
   )
 }
 
-const ModalAddList = ({modalOpen, setModalState}) =>  (
-  <Modal isOpen={modalOpen} toggle={() => {setModalState(!modalOpen)}}>
+const ModalAddList = ({ modalOpen, setModalState }) => (
+  <Modal isOpen={modalOpen} toggle={() => { setModalState(!modalOpen) }}>
     <ModalHeader>Create new list:</ModalHeader>
     <ModalBody>
       <FormGroup>
@@ -39,15 +47,15 @@ const ModalAddList = ({modalOpen, setModalState}) =>  (
       </FormGroup>
     </ModalBody>
     <ModalFooter>
-    <Button onClick={() => {setModalState(!modalOpen)}}>
+      <Button onClick={() => { setModalState(!modalOpen) }}>
         Close
-    </Button>
-    <Button color="primary">Save changes</Button>
+      </Button>
+      <Button color="primary">Save changes</Button>
     </ModalFooter>
   </Modal>
 )
 
 
- 
+
 
 export default TaskManagerPage;

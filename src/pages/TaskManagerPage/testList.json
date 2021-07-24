@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+            "done": true,
+            "_id": "60f2ba3aceb05143b93a408d",
+            "text": "finish homework",
+            "__v": 0
+        },
+        {
+            "done": false,
+            "_id": "60f2ba54ceb05143b93a4098",
+            "text": "sign up for math",
+            "__v": 0
+        },
+        {
+            "done": false,
+            "_id": "60f2bfdda27b5146cc752f16",
+            "text": "do cs150 homework",
+            "__v": 0
+        }
+    ],
+    "_id": "60f0db9d70d9dc028502d616",
+    "listName": "College",
+    "__v": 9
+}

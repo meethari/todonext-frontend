@@ -1,49 +1,32 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'
+import './TasksDisplay.css'
 
-const TasksDisplay = ({ taskList, setTaskList }) => {
-
-	const setTaskListWithLogging = (taskList) => {
-		console.log(taskList)
-		setTaskList(taskList)
+const TasksDisplay = ({ taskList, addTask, deleteTask, setTaskDone }) => {
+	if (taskList) {
+		return (
+			<div id="app">
+				<Header listName={taskList.listName} />
+				<AddTaskForm addTask={addTask} /> <br /> {/* Why */}
+				<TaskOrderedList tasks={taskList.tasks} deleteTask={deleteTask} setTaskDone={setTaskDone} />
+			</div>
+		);
+	} else {
+		return <div className="nolist">No list is currently selected. Please select a list</div>;
 	}
-
-	useEffect(() => {
-		// TODO: move init to TaskManagerPage.js
-		const getResults = async () => {
-			try {
-				const response = await axios.get('api/tasks')
-				// response.data has the list of json
-				setTaskListWithLogging(response.data)
-			} catch (e) {
-				console.log(e)
-			}
-		}
-
-		// getResults()
-
-	}, [])
-
-
-	
-
-	return (
-		<div id="app">
-			<TodoHeader />
-			<TodoForm addTodo={addTodo} /> <br /> {/* Why */}
-			<TodoList taskList={taskList} deleteTodo={deleteTodo} setTodoDone={setTodoDone} />
-		</div>
-	);
 }
 
-const TodoHeader = () => (
+
+
+
+const Header = ({listName}) => (
 	<div id="header">
-		<h2>Todo List</h2>
+		<h2>{listName}</h2>
 	</div>
 
 )
 
-const TodoForm = ({ addTodo }) => {
+const AddTaskForm = ({ addTask }) => {
 
 	const [input, setInput] = useState("")
 
@@ -52,34 +35,34 @@ const TodoForm = ({ addTodo }) => {
 	}
 
 	const submitHandler = (event) => {
-		addTodo(input)
+		addTask(input)
 		setInput("")
 	}
 
 	return (
 		<div id='form'>
 			<input id='form__input' type="text" value={input} onChange={changeHandler} />
-			<button id='form__submit' onClick={submitHandler}>Add Todo</button>
+			<button id='form__submit' onClick={submitHandler}>Add Task</button>
 		</div>
 	)
 }
 
-const TodoList = ({ taskList, deleteTodo, setTodoDone }) => (
+const TaskOrderedList = ({ tasks, deleteTask, setTaskDone }) => (
 	<ol id='todolist'>
-		{taskList.map((task) => (
-			<Todo key={task._id} task={task} deleteTodo={deleteTodo} setTodoDone={setTodoDone} />
+		{tasks.map((task) => (
+			<TaskItem key={task._id} task={task} deleteTask={deleteTask} setTaskDone={setTaskDone} />
 		))}
 	</ol>
 )
 
-const Todo = ({ task, deleteTodo, setTodoDone }) => {
+const TaskItem = ({ task, deleteTask, setTaskDone }) => {
 
 	const handleCheckboxChange = (event) => {
-		setTodoDone(task._id, event.target.checked)
+		setTaskDone(task._id, event.target.checked)
 	}
 
 	const handleSubmit = (event) => {
-		deleteTodo(task._id)
+		deleteTask(task._id)
 	}
 
 	return (
