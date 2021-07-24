@@ -9,7 +9,6 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, La
 const TaskManagerPage = () => {
 
     const [lists, setLists] = useState([])
-    const [currentList, setCurrentList] = useState("null")
     const [tasks, setTasks] = useState([])
     const [modalOpen, setModalState] = useState(false)
 
