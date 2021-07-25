@@ -3,29 +3,35 @@ import SiteNavbar from 'components/SiteNavbar'
 import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-
 
 
 const TaskManagerPage = () => {
 
   const [lists, setLists] = useState([])
+  const [selectedListId, setSelectedListId] = useState("loading")
   const [taskList, setTaskList] = useState(null)
-  const [modalOpen, setModalState] = useState(false)
 
   const [initTaskList, addTask, deleteTask, setTaskDone] = getTaskActions(setTaskList, taskList)
 
+  const testLists = [
+    {listName: "Barcelona Travel", _id:"1"},
+    {listName: "College", _id:"2"},
+    {listName: "Work", _id:"3"},
+    {listName: "Personal", _id:"4"},
+  ]
+
   useEffect(() => {
     initTaskList("60f0db1b70d9dc028502d612")
+    setLists(testLists)
+    setSelectedListId("2")
   }, [])
 
   return (
     <>
-      <ModalAddList modalOpen={modalOpen} setModalState={setModalState} />
       <SiteNavbar />
       <div>
         <div style={{ width: "20%", float: 'left' }}>
-          <ListSelector setModalState={setModalState} />
+          <ListSelector lists={lists} selectedListId={selectedListId}/>
         </div>
         <div style={{ width: "80%", float: 'right' }}>
           { taskList ?
@@ -38,24 +44,6 @@ const TaskManagerPage = () => {
     </>
   )
 }
-
-const ModalAddList = ({ modalOpen, setModalState }) => (
-  <Modal isOpen={modalOpen} toggle={() => { setModalState(!modalOpen) }}>
-    <ModalHeader>Create new list:</ModalHeader>
-    <ModalBody>
-      <FormGroup>
-        <Label form="inputListName">Name of new list:</Label>
-        <Input name="inputListName"></Input>
-      </FormGroup>
-    </ModalBody>
-    <ModalFooter>
-      <Button onClick={() => { setModalState(!modalOpen) }}>
-        Close
-      </Button>
-      <Button color="primary">Save changes</Button>
-    </ModalFooter>
-  </Modal>
-)
 
 
 
