@@ -2,24 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import './TasksDisplay.css'
 
-const TasksDisplay = ({ taskList, addTask, deleteTask, setTaskDone }) => {
-	if (taskList) {
-		return (
-			<div id="app">
-				<Header listName={taskList.listName} />
-				<AddTaskForm addTask={addTask} /> <br /> {/* Why */}
-				<TaskOrderedList tasks={taskList.tasks} deleteTask={deleteTask} setTaskDone={setTaskDone} />
-			</div>
-		);
-	} else {
-		return <div className="nolist">No list is currently selected. Please select a list</div>;
-	}
-}
+const TasksDisplay = ({ tasks, listName, addTask, deleteTask, setTaskDone }) => (
+	<div id="app">
+		<Header listName={listName} />
+		<AddTaskForm addTask={addTask} /> <br /> {/* Why */}
+		<TaskOrderedList tasks={tasks} deleteTask={deleteTask} setTaskDone={setTaskDone} />
+	</div>
+);
 
-
-
-
-const Header = ({listName}) => (
+const Header = ({ listName }) => (
 	<div id="header">
 		<h2>{listName}</h2>
 	</div>
@@ -35,7 +26,7 @@ const AddTaskForm = ({ addTask }) => {
 	}
 
 	const submitHandler = (event) => {
-		addTask(input)
+		addTask({text: input})
 		setInput("")
 	}
 

@@ -4,7 +4,6 @@ import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap'
-import testList from './testList.json'
 
 
 
@@ -17,7 +16,7 @@ const TaskManagerPage = () => {
   const [initTaskList, addTask, deleteTask, setTaskDone] = getTaskActions(setTaskList, taskList)
 
   useEffect(() => {
-    setTaskList(testList)
+    initTaskList("60f0db1b70d9dc028502d612")
   }, [])
 
   return (
@@ -29,7 +28,10 @@ const TaskManagerPage = () => {
           <ListSelector setModalState={setModalState} />
         </div>
         <div style={{ width: "80%", float: 'right' }}>
-          <TasksDisplay taskList={taskList} addTask={() => {}} deleteTask={() => {}} setTaskDone={() => {}}/>
+          { taskList ?
+            <TasksDisplay tasks={taskList.tasks} listName={taskList.listName}  addTask={addTask} deleteTask={deleteTask} setTaskDone={setTaskDone}/> :
+            <div className="nolist">No list is currently selected. Please select a list</div>
+          }
         </div>
       </div>
 
