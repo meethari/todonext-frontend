@@ -52,7 +52,7 @@ function getTaskActions(setTaskList, taskList) {
 	}
 
 
-	return [initTaskList, addTaskToTaskList, deleteTaskFromTaskList, setTaskDone]
+	return {initTaskList, addTaskToTaskList, deleteTaskFromTaskList, setTaskDone}
 
 }
 

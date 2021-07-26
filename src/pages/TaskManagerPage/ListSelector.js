@@ -14,7 +14,7 @@ const ListSelector = ({lists, selectedListId, addList, deleteList, selectList}) 
 			<Nav vertical style={{ backgroundColor: '#f1f1f1', minHeight: '100vh' }} className="listSelector">
 				{
 					lists.map(list => (
-						<ListNavItem listId={list._id} isSelected={list._id == selectedListId} listName={list.listName} selectList={selectList} deleteList={deleteList}/>
+						<ListNavItem key={list._id} listId={list._id} isSelected={list._id == selectedListId} listName={list.listName} selectList={selectList} deleteList={deleteList}/>
 					))
 				}
 				<NavItem>
@@ -38,7 +38,7 @@ const ListNavItem = ({listId, isSelected, listName, selectList, deleteList}) => 
 	}
 
 	return (
-		<NavItem key={listId} className="listNavItem">
+		<NavItem className="listNavItem">
 			<Row>
 				<Col sm="9">
 					<NavLink className={isSelected ? "active" : ""} onClick={selectListHandler}>{listName}</NavLink>
