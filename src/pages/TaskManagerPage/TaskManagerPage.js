@@ -3,6 +3,7 @@ import SiteNavbar from 'components/SiteNavbar'
 import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
+import getListActions from './ListActions';
 
 
 const TaskManagerPage = () => {
@@ -11,7 +12,10 @@ const TaskManagerPage = () => {
   const [selectedListId, setSelectedListId] = useState("loading")
   const [taskList, setTaskList] = useState(null)
 
+  // TODO: getTaskActions should return a object
   const [initTaskList, addTask, deleteTask, setTaskDone] = getTaskActions(setTaskList, taskList)
+
+  const {initLists, addListToLists: addList, deleteListFromLists: deleteList, selectList} = getListActions(lists, setLists, selectedListId, setSelectedListId)
 
   const testLists = [
     {listName: "Barcelona Travel", _id:"1"},
@@ -31,7 +35,7 @@ const TaskManagerPage = () => {
       <SiteNavbar />
       <div>
         <div style={{ width: "20%", float: 'left' }}>
-          <ListSelector lists={lists} selectedListId={selectedListId}/>
+          <ListSelector lists={lists} selectedListId={selectedListId} addList={addList} deleteList={deleteList} selectList={selectList}/>
         </div>
         <div style={{ width: "80%", float: 'right' }}>
           { taskList ?

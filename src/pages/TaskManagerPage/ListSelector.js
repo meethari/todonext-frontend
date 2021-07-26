@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
-import {Nav, NavItem, NavLink, Button,  Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input} from 'reactstrap'
+import {Nav, NavItem, NavLink, Button,  Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Col, Row} from 'reactstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import './ListSelector.scss'
 
-const ListSelector = ({lists, selectedListId}) => {
+const ListSelector = ({lists, selectedListId, addList, deleteList, selectList}) => {
 	const [modalOpen, setModalState] = useState(false)
 
 	return (
 		<>
-			<ModalAddList modalOpen={modalOpen} setModalState={setModalState} />
+			<ModalAddList modalOpen={modalOpen} setModalState={setModalState} addList={addList} />
 			<Nav vertical style={{ backgroundColor: '#f1f1f1', minHeight: '100vh' }} className="listSelector">
 				{
 					lists.map(list => (
-						<NavItem key={list._id}>
-							<NavLink className={list._id == selectedListId ? "active bg-primary" : ""}>{list.listName}</NavLink>
-						</NavItem>
+						<ListNavItem listId={list._id} isSelected={list._id == selectedListId} listName={list.listName} selectList={selectList} deleteList={deleteList}/>
 					))
 				}
 				<NavItem>
@@ -27,22 +27,60 @@ const ListSelector = ({lists, selectedListId}) => {
 	)
 }
 
-const ModalAddList = ({ modalOpen, setModalState }) => (
+const ListNavItem = ({listId, isSelected, listName, selectList, deleteList}) => {
+
+	const deleteListHandler = () => {
+		deleteList(listId)
+	}
+
+	const selectListHandler = () => {
+		selectList(listId)
+	}
+
+	return (
+		<NavItem key={listId} className="listNavItem">
+			<Row>
+				<Col sm="9">
+					<NavLink className={isSelected ? "active" : ""} onClick={selectListHandler}>{listName}</NavLink>
+				</Col>
+				<Col sm="3">
+					<Button color="danger" className="listDeleteBtn"> <FontAwesomeIcon icon={faTrash} onClick={deleteListHandler}/> </Button>
+				</Col>
+			</Row>
+		</NavItem>
+	)
+}
+
+const ModalAddList = ({ modalOpen, setModalState, addList }) => {
+	
+	const [listNameInput, setListNameInput] = useState('')
+
+	const inputHandler = (e) => {
+		setListNameInput(e.target.value)
+	}
+	
+	const saveHandler = () => {
+		addList({listName: listNameInput})
+		setModalState(false)
+	}
+
+	return (
 	<Modal isOpen={modalOpen} toggle={() => { setModalState(!modalOpen) }}>
 	  <ModalHeader>Create new list:</ModalHeader>
 	  <ModalBody>
 		<FormGroup>
 		  <Label form="inputListName">Name of new list:</Label>
-		  <Input name="inputListName"></Input>
+		  <Input name="inputListName" value={listNameInput} onChange={inputHandler}></Input>
 		</FormGroup>
 	  </ModalBody>
 	  <ModalFooter>
-		<Button onClick={() => { setModalState(!modalOpen) }}>
+		<Button onClick={() => { setModalState(false) }}>
 		  Close
 		</Button>
-		<Button color="primary">Save changes</Button>
+		<Button color="primary" onClick={saveHandler}>Save changes</Button>
 	  </ModalFooter>
 	</Modal>
   )
+}
 
 export default ListSelector

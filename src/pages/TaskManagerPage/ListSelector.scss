@@ -1,10 +1,18 @@
 .listSelector {
-    .active {
-        color: white;
+
+    $bs-primary: #0275d8;
+    $bs-primary-hover: #005cab;
+
+    .listNavItem {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        .active {
+            font-weight: bold;
+        }
+        
     }
-    
-    .active:hover {
-        color: white;
-    }
+
+
 }
 
