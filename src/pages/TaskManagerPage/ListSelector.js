@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Nav, NavItem, NavLink, Button,  Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input} from 'reactstrap'
 
-import './ListSelector.css'
+import './ListSelector.scss'
 
 const ListSelector = ({lists, selectedListId}) => {
 	const [modalOpen, setModalState] = useState(false)
@@ -9,11 +9,11 @@ const ListSelector = ({lists, selectedListId}) => {
 	return (
 		<>
 			<ModalAddList modalOpen={modalOpen} setModalState={setModalState} />
-			<Nav vertical style={{ backgroundColor: '#f1f1f1', minHeight: '100vh' }}>
+			<Nav vertical style={{ backgroundColor: '#f1f1f1', minHeight: '100vh' }} className="listSelector">
 				{
 					lists.map(list => (
 						<NavItem key={list._id}>
-							<NavLink className={list._id == selectedListId && "active bg-primary"}>{list.listName}</NavLink>
+							<NavLink className={list._id == selectedListId ? "active bg-primary" : ""}>{list.listName}</NavLink>
 						</NavItem>
 					))
 				}
