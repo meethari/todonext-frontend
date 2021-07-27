@@ -13,17 +13,14 @@ const TaskManagerPage = () => {
   const [selectedListId, setSelectedListId] = useState("loading")
   const [taskList, setTaskList] = useState(null)
 
-
-  const { initTaskList, addTaskToTaskList: addTask, deleteTaskFromTaskList: deleteTask, setTaskDone } = getTaskActions(setTaskList, taskList)
-
-  const { addListToLists: addList, deleteListFromLists: deleteList } = getListActions(lists, setLists, selectedListId, setSelectedListId)
-
   const initListsAndTasks = async () => {
 
     const apiLists = await axios.get('/api/lists/')
     setLists(apiLists.data)
     if (apiLists.data.length > 0) {
       selectList(apiLists.data[0]._id)
+    } else {
+      setSelectedListId("no lists")
     }
 
   }
@@ -33,7 +30,11 @@ const TaskManagerPage = () => {
     initTaskList(listId)
   }
 
-  useEffect(async () => {
+  const { initTaskList, addTaskToTaskList: addTask, deleteTaskFromTaskList: deleteTask, setTaskDone } = getTaskActions(setTaskList, taskList)
+
+  const { addListToLists: addList, deleteListFromLists: deleteList } = getListActions({lists, setLists, selectedListId, setSelectedListId, selectList})
+
+  useEffect(() => {
     initListsAndTasks()
   }, [])
 
@@ -45,9 +46,17 @@ const TaskManagerPage = () => {
           <ListSelector lists={lists} selectedListId={selectedListId} addList={addList} deleteList={deleteList} selectList={selectList} />
         </div>
         <div style={{ width: "80%", float: 'right' }}>
-          {taskList ?
-            <TasksDisplay tasks={taskList.tasks} listName={taskList.listName} addTask={addTask} deleteTask={deleteTask} setTaskDone={setTaskDone} /> :
-            <div className="nolist">No list is currently selected. Please select a list</div>
+          { 
+            (selectedListId !== "no lists" &&  selectedListId !== "loading" && taskList) &&
+            <TasksDisplay tasks={taskList.tasks} listName={taskList.listName} addTask={addTask} deleteTask={deleteTask} setTaskDone={setTaskDone} /> 
+          }
+          {
+            (selectedListId === "no lists") &&
+            <div className="nolist">You don't have any lists. Create a new one!</div>
+          }
+          {
+            (selectedListId === "loading") &&
+            <div className="nolist">Loading...</div>
           }
         </div>
       </div>

@@ -30,6 +30,7 @@ const ListSelector = ({lists, selectedListId, addList, deleteList, selectList}) 
 const ListNavItem = ({listId, isSelected, listName, selectList, deleteList}) => {
 
 	const deleteListHandler = () => {
+		console.log('Handler hit')
 		deleteList(listId)
 	}
 
@@ -62,6 +63,7 @@ const ModalAddList = ({ modalOpen, setModalState, addList }) => {
 	const saveHandler = () => {
 		addList({listName: listNameInput})
 		setModalState(false)
+		setListNameInput('')
 	}
 
 	return (
