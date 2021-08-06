@@ -15,5 +15,27 @@
             width: 70%;
         }
     }
+
+    .splash-features {
+        margin-bottom: 0px;
+
+        .splash-features-img {
+            height: 100px;
+        }
+    
+        .splash-features-imgcol {
+            text-align: center;
+        }
+    
+        .splash-features-row {
+            margin-top: 30px;
+        }
+    
+        .splash-features-textcol {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     
 }
