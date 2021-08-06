@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
-import Splash from 'pages/Splash'
+import Splash from 'pages/Splash/Splash'
 import TaskManagerPage from 'pages/TaskManagerPage/TaskManagerPage'
 import Login from 'pages/Login'
 import Register from 'pages/Register'

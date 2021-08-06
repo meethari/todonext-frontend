@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import {Row, Col, Container } from 'reactstrap'
+
 import SiteNavbar from 'components/SiteNavbar'
 import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
@@ -41,25 +43,25 @@ const TaskManagerPage = () => {
   return (
     <>
       <SiteNavbar />
-      <div>
-        <div style={{ width: "20%", float: 'left' }}>
-          <ListSelector lists={lists} selectedListId={selectedListId} addList={addList} deleteList={deleteList} selectList={selectList} />
-        </div>
-        <div style={{ width: "80%", float: 'right' }}>
-          { 
-            (selectedListId !== "no lists" &&  selectedListId !== "loading" && taskList) &&
-            <TasksDisplay tasks={taskList.tasks} listName={taskList.listName} addTask={addTask} deleteTask={deleteTask} setTaskDone={setTaskDone} /> 
-          }
-          {
-            (selectedListId === "no lists") &&
-            <div className="nolist">You don't have any lists. Create a new one!</div>
-          }
-          {
-            (selectedListId === "loading") &&
-            <div className="nolist">Loading...</div>
-          }
-        </div>
-      </div>
+        <Row>
+          <Col md="3">
+            <ListSelector lists={lists} selectedListId={selectedListId} addList={addList} deleteList={deleteList} selectList={selectList} />
+          </Col>
+          <Col>
+            { 
+              (selectedListId !== "no lists" &&  selectedListId !== "loading" && taskList) &&
+              <TasksDisplay tasks={taskList.tasks} listName={taskList.listName} addTask={addTask} deleteTask={deleteTask} setTaskDone={setTaskDone} /> 
+            }
+            {
+              (selectedListId === "no lists") &&
+              <div className="nolist">You don't have any lists. Create a new one!</div>
+            }
+            {
+              (selectedListId === "loading") &&
+              <div className="nolist">Loading...</div>
+            }
+          </Col>
+        </Row>
 
     </>
   )

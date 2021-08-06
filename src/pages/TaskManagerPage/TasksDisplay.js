@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'
-import './TasksDisplay.css'
+import './TasksDisplay.scss'
 
 const TasksDisplay = ({ tasks, listName, addTask, deleteTask, setTaskDone }) => (
 	<div id="app">
