@@ -76,10 +76,10 @@ const ModalAddList = ({ modalOpen, setModalState, addList }) => {
 		</FormGroup>
 	  </ModalBody>
 	  <ModalFooter>
-		<Button onClick={() => { setModalState(false) }}>
-		  Close
+		<Button color="danger" onClick={() => { setModalState(false) }}>
+		  Cancel
 		</Button>
-		<Button color="primary" onClick={saveHandler}>Save changes</Button>
+		<Button color="primary" onClick={saveHandler}>Create New List</Button>
 	  </ModalFooter>
 	</Modal>
   )
