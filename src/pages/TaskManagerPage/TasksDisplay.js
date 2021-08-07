@@ -3,7 +3,7 @@ import axios from 'axios'
 import './TasksDisplay.scss'
 
 const TasksDisplay = ({ tasks, listName, addTask, deleteTask, setTaskDone }) => (
-	<div id="app">
+	<div class="tasks-display">
 		<Header listName={listName} />
 		<AddTaskForm addTask={addTask} /> <br /> {/* Why */}
 		<TaskOrderedList tasks={tasks} deleteTask={deleteTask} setTaskDone={setTaskDone} />

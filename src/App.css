@@ -1,4 +1,8 @@
-#app {
+.app {
+    padding-top: 56px;
+}
+
+.tasks-display {
     margin: auto;
     width: 500px;
     padding: 0px 15px;

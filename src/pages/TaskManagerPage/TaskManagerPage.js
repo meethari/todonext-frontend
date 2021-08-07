@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Row, Col, Container } from 'reactstrap'
 
-import SiteNavbar from 'components/SiteNavbar'
 import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
@@ -42,7 +41,6 @@ const TaskManagerPage = () => {
 
   return (
     <>
-      <SiteNavbar />
         <Row>
           <Col md="3">
             <ListSelector lists={lists} selectedListId={selectedListId} addList={addList} deleteList={deleteList} selectList={selectList} />

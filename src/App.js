@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import SiteNavbar from 'components/SiteNavbar/SiteNavbar';
 import Splash from 'pages/Splash/Splash'
 import TaskManagerPage from 'pages/TaskManagerPage/TaskManagerPage'
 import Login from 'pages/Login'
@@ -37,22 +38,25 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            {authTokens ? <TaskManagerPage/> : <Splash/>}
-          </Route> 
-          <Route path="/login">
-            <Login/>
-          </Route>
-          <Route path="/register">
-            <Register/>
-          </Route>
-          <Route path="/logout">
-            <Logout/>
-          </Route>
-        </Switch>
-      </Router>
+      <div className="app">
+        <Router>
+          <SiteNavbar/>
+          <Switch>
+            <Route exact path="/">
+              {authTokens ? <TaskManagerPage/> : <Splash/>}
+            </Route> 
+            <Route path="/login">
+              <Login/>
+            </Route>
+            <Route path="/register">
+              <Register/>
+            </Route>
+            <Route path="/logout">
+              <Logout/>
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     </AuthContext.Provider>
   )
 }

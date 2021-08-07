@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { Jumbotron, Container, Button, Row, Col } from 'reactstrap'
 import { useHistory } from "react-router-dom";
-import SiteNavbar from 'components/SiteNavbar'
 import Footer from 'components/Footer/Footer'
 import "./Splash.scss"
 import img_office_worker from 'assets/office_worker.jpeg'
@@ -18,7 +17,6 @@ const Splash = () => {
 
     return (
         <div className="splash-page">
-            <SiteNavbar/>
             <Jumbotron className="splash-hero">
                 <Container className="splash-hero-container">
                     <h1>Your personal task management solution.</h1>

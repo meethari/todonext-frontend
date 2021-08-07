@@ -10,11 +10,7 @@ import {
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    NavbarText
+    Container
 } from 'reactstrap';
 
 const SiteNavbar = (props) => {
@@ -25,8 +21,8 @@ const SiteNavbar = (props) => {
     const toggle = () => setIsOpen(!isOpen);
 
     return (
-        <div>
-            <Navbar color="light" light expand="md">
+        <div className="site-navbar">
+            <Navbar color="light" light expand="md" fixed="top">
                 <NavbarBrand href="/">ToDoNext</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
