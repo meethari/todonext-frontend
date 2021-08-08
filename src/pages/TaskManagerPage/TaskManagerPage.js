@@ -5,10 +5,12 @@ import ListSelector from './ListSelector'
 import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
 import getListActions from './ListActions';
-import axios from 'axios';
+import Api from 'utilities/api';
 
 
 const TaskManagerPage = () => {
+
+  const api = new Api()
 
   const [lists, setLists] = useState([])
   const [selectedListId, setSelectedListId] = useState("loading")
@@ -16,7 +18,7 @@ const TaskManagerPage = () => {
 
   const initListsAndTasks = async () => {
 
-    const apiLists = await axios.get('/api/lists/')
+    const apiLists = await api.get('/api/lists/')
     setLists(apiLists.data)
     if (apiLists.data.length > 0) {
       selectList(apiLists.data[0]._id)

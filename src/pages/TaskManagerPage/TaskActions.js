@@ -1,14 +1,16 @@
-import axios from "axios"
+import Api from 'utilities/api'
 
 function getTaskActions(setTaskList, taskList) {
 
+	const api = new Api()
+
 	const initTaskList = async (listId) => {
-		const response = await axios.get(`/api/lists/${listId}`)
+		const response = await api.get(`/api/lists/${listId}`)
 		setTaskList(response.data)
 	}
 
 	const addTaskToTaskList = async (task) => {
-		const response = await axios.post(`/api/lists/${taskList._id}/tasks/`, task)
+		const response = await api.post(`/api/lists/${taskList._id}/tasks/`, task)
 		// response.data is the task
 		const newTaskList = {...taskList, tasks: [...taskList.tasks, response.data]}
 		setTaskList(newTaskList)
@@ -20,7 +22,7 @@ function getTaskActions(setTaskList, taskList) {
 		const deleteTaskIndex = taskList.tasks.findIndex(task => task._id === id)
 		const newTaskList = {...taskList, tasks: [...taskList.tasks.slice(0, deleteTaskIndex), ...taskList.tasks.slice(deleteTaskIndex + 1)]}
 		setTaskList(newTaskList)
-		const response = await axios.delete(`/api/lists/${taskList._id}/tasks/${id}`)
+		const response = await api.delete(`/api/lists/${taskList._id}/tasks/${id}`)
 		if (response.status != 200) {
 			throw 'deleteTodo: deleting task from mongo failed. Please refresh the app.'
 		}
@@ -41,7 +43,7 @@ function getTaskActions(setTaskList, taskList) {
 		const newTaskList = {...taskList, tasks: [...taskList.tasks.slice(0, editTaskIndex), newTask, ...taskList.tasks.slice(editTaskIndex + 1)]}
 		setTaskList(newTaskList)
 
-		const response = await axios.patch(`/api/lists/${taskList._id}/tasks/${newTask._id}`, newTask)
+		const response = await api.patch(`/api/lists/${taskList._id}/tasks/${newTask._id}`, newTask)
 
 		if (response.status === 200) {
 			console.log('setTodoDone: task\'s done status was updated in MongoDB')

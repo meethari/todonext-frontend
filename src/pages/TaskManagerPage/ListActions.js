@@ -1,5 +1,8 @@
-import axios from "axios"
+import Api from 'utilities/api'
+
 function getListActions({lists, setLists, selectedListId, setSelectedListId, selectList}) {
+
+    const api = new Api()
 
     const deleteListFromLists = async (id) => {
         console.log('Hit delete')
@@ -35,11 +38,11 @@ function getListActions({lists, setLists, selectedListId, setSelectedListId, sel
         setLists([...lists.slice(0, deleteIdx), ...lists.slice(deleteIdx + 1)])
 
         // since deleting takes time, we make the api call at the end
-        await axios.delete(`/api/lists/${id}`)
+        await api.delete(`/api/lists/${id}`)
     }
     
     const addListToLists = async (newList) => {
-        const response = await axios.post('/api/lists/', newList)
+        const response = await api.post('/api/lists/', newList)
         setLists([...lists, response.data])
         selectList(response.data._id)
 
