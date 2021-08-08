@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import axios from 'axios'
+import Api from 'utilities/api';
 
 import { Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 import { Link, useHistory } from 'react-router-dom'
@@ -39,7 +39,8 @@ const Login = () => {
         }
     
         try {
-            const response = await axios.post('/login', {username: inputEmail, password: inputPassword})
+            const api = new Api()
+            const response = await api.post('/login', {username: inputEmail, password: inputPassword})
             if (response.status == 200) {
             setAuthTokens(true)
             history.push("/")

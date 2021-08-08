@@ -6,7 +6,7 @@ import TaskManagerPage from 'pages/TaskManagerPage/TaskManagerPage'
 import Login from 'pages/Login'
 import Register from 'pages/Register'
 import {AuthContext, useAuth} from 'context/Auth'
-import axios from 'axios'
+import Api from 'utilities/api';
 import 'App.css';
 
 const Logout = () => {
@@ -16,7 +16,8 @@ const Logout = () => {
   useEffect (() => {
 
     const someFunction = async () => {
-      const response = await axios.post('/logout')
+      const api = new Api()
+      const response = await api.post('/logout')
       setAuthTokens(false)
     } 
     someFunction()
