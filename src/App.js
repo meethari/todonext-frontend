@@ -14,14 +14,7 @@ const Logout = () => {
   const {authTokens, setAuthTokens} = useAuth()
 
   useEffect (() => {
-
-    const someFunction = async () => {
-      const api = new Api()
-      const response = await api.post('/logout')
-      setAuthTokens(false)
-    } 
-    someFunction()
-    
+    setAuthTokens(false)
   }, [])
   
   return (authTokens ? <p>Logging out</p> : <Redirect to="/"/>)

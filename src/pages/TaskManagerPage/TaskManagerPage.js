@@ -6,11 +6,14 @@ import TasksDisplay from './TasksDisplay';
 import getTaskActions from './TaskActions';
 import getListActions from './ListActions';
 import Api from 'utilities/api';
+import {useAuth} from 'context/Auth'
 
 
 const TaskManagerPage = () => {
 
-  const api = new Api()
+  const {authTokens} = useAuth()
+
+  const api = new Api(authTokens)
 
   const [lists, setLists] = useState([])
   const [selectedListId, setSelectedListId] = useState("loading")
@@ -33,9 +36,9 @@ const TaskManagerPage = () => {
     initTaskList(listId)
   }
 
-  const { initTaskList, addTaskToTaskList: addTask, deleteTaskFromTaskList: deleteTask, setTaskDone } = getTaskActions(setTaskList, taskList)
+  const { initTaskList, addTaskToTaskList: addTask, deleteTaskFromTaskList: deleteTask, setTaskDone } = getTaskActions({setTaskList, taskList, api})
 
-  const { addListToLists: addList, deleteListFromLists: deleteList } = getListActions({lists, setLists, selectedListId, setSelectedListId, selectList})
+  const { addListToLists: addList, deleteListFromLists: deleteList } = getListActions({lists, setLists, selectedListId, setSelectedListId, selectList, api})
 
   useEffect(() => {
     initListsAndTasks()

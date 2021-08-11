@@ -1,8 +1,6 @@
 import Api from 'utilities/api'
 
-function getTaskActions(setTaskList, taskList) {
-
-	const api = new Api()
+function getTaskActions({setTaskList, taskList, api}) {
 
 	const initTaskList = async (listId) => {
 		const response = await api.get(`/api/lists/${listId}`)

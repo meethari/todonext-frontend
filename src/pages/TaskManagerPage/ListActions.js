@@ -1,8 +1,6 @@
 import Api from 'utilities/api'
 
-function getListActions({lists, setLists, selectedListId, setSelectedListId, selectList}) {
-
-    const api = new Api()
+function getListActions({lists, setLists, selectedListId, setSelectedListId, selectList, api}) {
 
     const deleteListFromLists = async (id) => {
         console.log('Hit delete')

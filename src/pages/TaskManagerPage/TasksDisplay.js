@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TasksDisplay.scss'
 
 const TasksDisplay = ({ tasks, listName, addTask, deleteTask, setTaskDone }) => (
-	<div class="tasks-display">
+	<div className="tasks-display">
 		<Header listName={listName} />
 		<AddTaskForm addTask={addTask} /> <br /> {/* Why */}
 		<TaskOrderedList tasks={tasks} deleteTask={deleteTask} setTaskDone={setTaskDone} />

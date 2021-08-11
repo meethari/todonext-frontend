@@ -48,9 +48,9 @@ const Register = () => {
         
         try {
             const api = new Api()
-            const response = await api.post('/register', {username: inputEmail, password: inputPassword})
+            const response = await api.post('/api/users/register', {username: inputEmail, password: inputPassword})
             if (response.status == 200) {
-            setAuthTokens(true)
+            setAuthTokens(response.data.token)
             history.push('/')
             } 
         } catch (e) {
