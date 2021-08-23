@@ -1,7 +1,11 @@
 {
-  "name": "react_todo",
+  "name": "todonext-frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "=12.22.5",
+    "npm": "=6.14.14"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
