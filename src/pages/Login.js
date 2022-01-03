@@ -42,8 +42,8 @@ const Login = () => {
             const api = new Api()
             const response = await api.post('/api/users/login', {username: inputEmail, password: inputPassword})
             if (response.status == 200) {
-            setAuthTokens(response.data.token)
-            history.push("/")
+                setAuthTokens(response.data.token)
+                history.push("/")
             } 
         } catch (e) {
             setAlertMessage('Invalid email ID and/or password. Please re enter your credentials.')
