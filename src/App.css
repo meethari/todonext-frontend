@@ -4,7 +4,7 @@
 
 .tasks-display {
     margin: auto;
-    width: 500px;
+    max-width: 900px;
     padding: 0px 15px;
 }
 
